@@ -1,0 +1,12 @@
+[submodule "xtuner"]
+	path = xtuner
+	url = https://github.com/InternLM/xtuner
+[submodule "internlm2-chat-7b"]
+	path = internlm2-chat-7b
+	url = https://modelscope.cn/Shanghai_AI_Laboratory/internlm2-chat-7b.git
+[submodule "Roleplay-with-XiYou"]
+	path = Roleplay-with-XiYou
+	url = https://github.com/JimmyMa99/Roleplay-with-XiYou.git
+[submodule "tutorial"]
+	path = tutorial
+	url = https://github.com/InternLM/tutorial
