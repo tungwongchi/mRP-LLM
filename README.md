@@ -124,12 +124,12 @@ The conclusion of the article...
 To reference this article, please use the following formats:
 
 ```bibtex
-@online{refTitl,
-    title={title},
+@online{mRP-LLM,
+    title={Multi role-playing large language model},
     author={Tungwong Chi},
-    year={year},
-    month={month},
-    url={\url{https://url}},
+    year={2024},
+    month={03},
+    url={\url{https://github.com/tungwongchi/mRP-LLM}},
 }
 ```
 
