@@ -16,3 +16,6 @@
 [submodule "InternLM"]
 	path = InternLM
 	url = https://github.com/InternLM/InternLM
+[submodule "xiyou_1_8b_merged"]
+	path = xiyou_1_8b_merged
+	url = https://code.openxlab.org.cn/tungwong.chi/mRP-LLM.git
