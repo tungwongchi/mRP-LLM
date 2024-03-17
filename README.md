@@ -40,6 +40,9 @@ cat zbj.jsonl | uniq | tail -n 1500 | tee zbj.tail.jsonl
 cat zbj.head.jsonl | tee -a xiyou.jsonl
 cat zbj.tail.jsonl | tee -a xiyou.jsonl
 
+# dataset loader with auto shuffle functional 
+# shuf xiyou.jsonl | tee xiyou.rng.jsonl
+
 rm swj.* swk.* tsz.* zbj.*
 cd ..
 ```
@@ -60,7 +63,10 @@ conda activate mRP-LLM
 
 ```bash
 # download Base LLM
+# 7b
 git lfs clone https://modelscope.cn/Shanghai_AI_Laboratory/internlm2-chat-7b.git
+# 1.8b
+git lfs clone https://modelscope.cn/Shanghai_AI_Laboratory/internlm2-chat-1_8b.git
 ```
 
 ```bash
@@ -68,21 +74,26 @@ git lfs clone https://modelscope.cn/Shanghai_AI_Laboratory/internlm2-chat-7b.git
 git clone https://github.com/InternLM/xtuner
 cd xtuner
 pip install -e '.[all]'
-
 cd ..
+
 xtuner list-cfg
+# 7b
 xtuner copy-cfg internlm2_7b_qlora_oasst1_e3 .
 cp ./internlm2_7b_qlora_oasst1_e3_copy.py xiyou_7b.py
 vim xiyou_7b.py 
+# 1.8b
+xtuner copy-cfg internlm2_chat_1_8b_qlora_alpaca_e3 .
+cp ./internlm2_chat_1_8b_qlora_alpaca_e3_copy.py xiyou_1_8b.py
+vim xiyou_1_8b.py 
 ```
 
 ```diff
+# 7b
 # change model and data path
 - pretrained_model_name_or_path = 'internlm/internlm2-chat-7b'
 + pretrained_model_name_or_path = './internlm2-chat-7b'
 
 - data_path = 'timdettmers/openassistant-guanaco'
-# xiyou_7b.py
 + data_path = './data/xiyou.jsonl'
 
 evaluation_inputs = [
@@ -98,15 +109,43 @@ tokenizer=tokenizer,
 max_length=max_length,
 - dataset_map_fn=oasst1_map_fn,
 + dataset_map_fn=None,
+
+# 1.8b
+# change model and data path
+- pretrained_model_name_or_path = 'internlm/internlm2-chat-1_8b'
++ pretrained_model_name_or_path = './internlm2-chat-1_8b'
+
+- alpaca_en_path = 'tatsu-lab/alpaca'
++ alpaca_en_path = './data/xiyou.jsonl'
+
+evaluation_inputs = [
+-    '请给我介绍五个上海的景点', 'Please tell me five scenic spots in Shanghai'
++    '你是谁呀', '我又是谁呢','书生浦语是谁','上海人工智能实验室是哪的'
+]
+
+train_dataset = dict(
+    type=process_hf_dataset,
+- dataset=dict(type=load_dataset, path=alpaca_en_path),
++ dataset=dict(type=load_dataset, path='json', data_files=dict(train=alpaca_en_path)),
+tokenizer=tokenizer,
+max_length=max_length,
+- dataset_map_fn=alpaca_map_fn,
++ dataset_map_fn=None,
 ```
 
 ### 2.3. Experiments
 
 ```bash
+# 7b
 xtuner train ./xiyou_7b.py --deepspeed deepspeed_zero2
 xtuner convert pth_to_hf ./xiyou_7b.py ./work_dirs/xiyou_7b/epoch_1.pth ./xiyou_7b
 xtuner convert merge ./internlm2-chat-7b ./xiyou_7b ./xiyou_7b_merged --max-shard-size 2GB
 xtuner chat ./xiyou_7b_merged --prompt-template internlm_chat
+# 1.8b
+xtuner train ./xiyou_1_8b.py --deepspeed deepspeed_zero2
+xtuner convert pth_to_hf ./xiyou_1_8b.py ./work_dirs/xiyou_1_8b/epoch_1.pth ./xiyou_1_8b
+xtuner convert merge ./internlm2-chat-1_8b ./xiyou_1_8b ./xiyou_1_8b_merged --max-shard-size 2GB
+xtuner chat ./xiyou_1_8b_merged --prompt-template internlm_chat
 ```
 
 If you encounter any errors, please see the [Error Check Logs](./ECL.md) first.

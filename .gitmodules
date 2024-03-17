@@ -10,3 +10,6 @@
 [submodule "tutorial"]
 	path = tutorial
 	url = https://github.com/InternLM/tutorial
+[submodule "internlm2-chat-1_8b"]
+	path = internlm2-chat-1_8b
+	url = https://modelscope.cn/Shanghai_AI_Laboratory/internlm2-chat-1_8b.git
