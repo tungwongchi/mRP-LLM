@@ -155,6 +155,28 @@ FileNotFoundError: Unable to find '/root/code/mRP-LLM/tatsu-lab/alpaca'
 + alpaca_en_path = './data/xiyou.jsonl'
 ```
 
+### Error 4
+
+**Description**: st.session_state has no attribute "messages"
+
+**Error Message**:
+```bash
+Traceback (most recent call last):
+  File "/root/code/mRP-LLM/web_demo.py", line 290, in <module>
+    main()
+  File "/root/code/mRP-LLM/web_demo.py", line 251, in main
+    for message in st.session_state.messages:
+  File "/root/.local/lib/python3.10/site-packages/streamlit/runtime/state/session_state_proxy.py", line 121, in __getattr__
+    raise AttributeError(_missing_attr_error_message(key))
+AttributeError: st.session_state has no attribute "messages". Did you forget to initialize it? More info: https://docs.streamlit.io/library/advanced-features/session-state#initialization
+```
+
+**Suggested Fix**:
+```bash
+streamlit run web_demo.py 
+```
+
+
 <!-- 
 ### Error 1
 
