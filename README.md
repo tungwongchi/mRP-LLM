@@ -223,14 +223,7 @@ streamlit run web_demo.py
 
 If you encounter any errors, please see the [Error Check Logs](./ECL.md) first.
 
-### 2.4. Analysis and Discussion
-
-1. dataset load auto shuffle data
-
-### 2.5. Conclusion
-The conclusion of the article...
-
-### 2.6. References
+### 2.4. References
 
 - Ma Zhiming. (2024). Roleplay-with-XiYou [Data]. Available at https://github.com/JimmyMa99/Roleplay-with-XiYou
 - Shanghai AI Laboratory. (2024). InternLM2-Chat-7B [LLM]. Available at https://modelscope.cn/Shanghai_AI_Laboratory/internlm2-chat-7b
